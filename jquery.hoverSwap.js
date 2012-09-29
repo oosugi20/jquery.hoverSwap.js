@@ -62,6 +62,8 @@
 			._setSrcExtention()
 			._setNormalSrc()
 			._setOverSrc()
+			._eventify()
+			._preloadOver()
 			;
 		//console.log(this);
 	};
@@ -147,6 +149,77 @@
 	HoverSwap.fn._setOverSrc = function () {
 		var _src = this.noExtentionSrc(this.normal_src);
 		this.over_src = _src + this.options.over_suffix + this.src_extention;
+		return this;
+	};
+
+
+	/**
+	 * HoverSwap.fn._eventify
+	 * @private
+	 * @type Function
+	 * @chainable
+	 */
+	HoverSwap.fn._eventify = function () {
+		var _this = this;
+		if (this.$el.attr('src') !== this.over_src) {
+			this.$el
+				.on('mouseenter', function () {
+					_this.swapTo('over');
+				})
+				.on('mouseleave', function () {
+					_this.swapTo('normal');
+				})
+				;
+		}
+		return this;
+	};
+
+
+	/**
+	 * HoverSwap.fn.swapTo
+	 * @type Function
+	 * @param {String} contenxt `over|normal`
+	 * @chainable
+	 */
+	HoverSwap.fn.swapTo = function (context) {
+		switch (context) {
+			case 'over':
+				this._swapOver();
+				break;
+
+			case 'normal':
+				this._swapNormal();
+				break;
+
+			//case 'current':
+		}
+		return this;
+	};
+
+
+	/**
+	 * HoverSwap.fn._swapOver
+	 */
+	HoverSwap.fn._swapOver = function () {
+		this.$el.attr('src', this.over_src);
+		return this;
+	};
+
+
+	/**
+	 * HoverSwap.fn.swapNormal
+	 */
+	HoverSwap.fn._swapNormal = function () {
+		this.$el.attr('src', this.normal_src);
+		return this;
+	};
+
+
+	/**
+	 * HoverSwap.fn._preloadOver
+	 */
+	HoverSwap.fn._preloadOver = function () {
+		(new Image()).src = this.over_src;
 		return this;
 	};
 

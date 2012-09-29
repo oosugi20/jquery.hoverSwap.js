@@ -157,4 +157,94 @@ describe('$.fn.hoverSwap', function () {
 			});
 		});
 	});
+
+
+	describe('_eventify', function () {
+		it('mouseenterで `_swapOver` が呼ばれること', function () {
+			var $img = $('<img src="../dummy_img_01.jpg">');
+			$img.hoverSwap();
+			var hoverSwap = $.data($img[0], 'hoverSwap');
+			var spy = sinon.stub(hoverSwap, '_swapOver');
+			$img.trigger('mouseenter');
+			expect(spy.calledOnce).to.be.ok();
+		});
+
+		it('mouseleaveで `_swapNormal` が呼ばれること', function () {
+			var $img = $('<img src="../dummy_img_01.jpg">');
+			$img.hoverSwap();
+			var hoverSwap = $.data($img[0], 'hoverSwap');
+			var spy = sinon.stub(hoverSwap, '_swapNormal');
+			$img.trigger('mouseleave');
+			expect(spy.calledOnce).to.be.ok();
+		});
+
+		context('元々オーバー画像だった場合', function () {
+			it('mouseenterしても `swapTo` が呼ばれないこと', function () {
+				var $img = $('<img src="../dummy_img_01_ov.jpg">');
+				$img.hoverSwap();
+				var hoverSwap = $.data($img[0], 'hoverSwap');
+				var spy = sinon.stub(hoverSwap, 'swapTo');
+				$img.trigger('mouseenter');
+				expect(spy.calledOnce).to.not.be.ok();
+			});
+		});
+
+		context('後からオーバー画像に変えた場合', function () {
+			it('', function () {
+				var $img = $('<img src="../dummy_img_01_ov.jpg">');
+				$img.hoverSwap();
+				var hoverSwap = $.data($img[0], 'hoverSwap');
+			});
+		});
+	});
+
+
+	describe('swapTo', function () {
+		it('`over` を引数に渡すと `_swapOver` が呼ばれること', function () {
+			var $img = $('<img src="../dummy_img_01.jpg">');
+			$img.hoverSwap();
+			var hoverSwap = $.data($img[0], 'hoverSwap');
+			var spy = sinon.stub(hoverSwap, '_swapOver');
+			hoverSwap.swapTo('over');
+			expect(spy.calledOnce).to.be.ok();
+		});
+
+		it('`normal` を引数に渡すと `_swapNormal` が呼ばれること', function () {
+			var $img = $('<img src="../dummy_img_01.jpg">');
+			$img.hoverSwap();
+			var hoverSwap = $.data($img[0], 'hoverSwap');
+			var spy = sinon.stub(hoverSwap, '_swapNormal');
+			hoverSwap.swapTo('normal');
+			expect(spy.calledOnce).to.be.ok();
+		});
+	});
+
+
+	describe('_swapOver', function () {
+		it('画像のsrcがover_srcに変わること', function () {
+			var $img = $('<img src="../dummy_img_01.jpg">');
+			$img.hoverSwap();
+			var hoverSwap = $.data($img[0], 'hoverSwap');
+			hoverSwap._swapOver();
+			expect($img.attr('src')).to.be.equal('../dummy_img_01_ov.jpg');
+		});
+	});
+
+
+	describe('_swapNormal', function () {
+		it('画像のsrcがnormal_srcに変わること', function () {
+			var $img = $('<img src="../dummy_img_01_ov.jpg">');
+			$img.hoverSwap();
+			var hoverSwap = $.data($img[0], 'hoverSwap');
+			hoverSwap._swapNormal();
+			expect($img.attr('src')).to.be.equal('../dummy_img_01.jpg');
+		});
+	});
+
+
+	describe('_preloadOver', function () {
+		it('オーバー画像が読み込まれること', function () {
+			// no idea for test
+		});
+	});
 });
