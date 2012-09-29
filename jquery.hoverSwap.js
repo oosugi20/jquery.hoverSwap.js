@@ -108,9 +108,7 @@
 	 * @chainable
 	 */
 	HoverSwap.fn._setNormalSrc = function () {
-		var _this = this
-		  , o = _this.options
-		  , src = _this.$el.attr('src')
+		var src = this.$el.attr('src')
 		  , reg = new RegExp(this.options.over_suffix + this.src_extention + '$', 'i')
 		  ;
 
@@ -120,7 +118,7 @@
 			src = src.replace(reg, this.options.normal_suffix + this.src_extention);
 		}
 
-		_this.normal_src = src;
+		this.normal_src = src;
 
 		return this;
 	};
