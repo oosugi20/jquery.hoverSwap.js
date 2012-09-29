@@ -76,33 +76,49 @@ describe('$.fn.hoverSwap', function () {
 			expect($.data($img[0], 'hoverSwap').normal_src).to.be.ok();
 		});
 
-		it('オーバー時の画像だったときも正しく通常時のパスが取得されていること', function () {
-			var $img = $('<img src="../dummy_img_01_ov.jpg">');
-			$img.hoverSwap();
-			expect($.data($img[0], 'hoverSwap').normal_src).to.be.equal('../dummy_img_01.jpg');
-		});
-
-		it('オプションでオーバー時の接尾辞が変えられていても正しく取得されていること', function () {
-			var $img = $('<img src="../dummy_img_05_on.png">');
-			$img.hoverSwap({
-				over_suffix: '_on'
+		describe('初期状態がオーバー時の画像だった場合', function () {
+			it('正しく通常時のパスが取得されていること', function () {
+				var $img = $('<img src="../dummy_img_01_ov.jpg">');
+				$img.hoverSwap();
+				expect($.data($img[0], 'hoverSwap').normal_src).to.be.equal('../dummy_img_01.jpg');
 			});
-			expect($.data($img[0], 'hoverSwap').normal_src).to.be.equal('../dummy_img_05.png');
+
+			it('複数の拡張子で正しく取得されていること', function () {
+				var $jpg = $('<img src="../dummy_img_01_ov.jpg">')
+				  , $jpeg = $('<img src="../dummy_img_08_ov.jpeg">')
+				  , $gif = $('<img src="../dummy_img_03_ov.gif">')
+				  , $png = $('<img src="../dummy_img_04_ov.png">')
+				  , $imgs = $jpg.add($gif).add($png).add($jpeg)
+				  ;
+				$imgs.hoverSwap();
+				expect($.data($jpg[0], 'hoverSwap').normal_src).to.be.equal('.jpg');
+				expect($.data($jpeg[0], 'hoverSwap').normal_src).to.be.equal('.jpeg');
+				expect($.data($gif[0], 'hoverSwap').normal_src).to.be.equal('.gif');
+				expect($.data($png[0], 'hoverSwap').normal_src).to.be.equal('.png');
+			});
+
+			it('オプションでオーバー時の接尾辞が変えられていても正しく取得されていること', function () {
+				var $img = $('<img src="../dummy_img_05_on.png">');
+				$img.hoverSwap({
+					over_suffix: '_on'
+				});
+				expect($.data($img[0], 'hoverSwap').normal_src).to.be.equal('../dummy_img_05.png');
+			});
+
+			it('オプションで通常時の接尾辞が変えられているかつオーバーの接尾辞も変えられていても正しく取得されていること', function () {
+				var $img = $('<img src="../dummy_img_07_ovr.png">');
+				$img.hoverSwap({
+					over_suffix: '_ovr'
+				  , normal_suffix: '_off'
+				});
+				expect($.data($img[0], 'hoverSwap').normal_src).to.be.equal('../dummy_img_07_off.png');
+			});
 		});
 
 		it('オプションで通常時の接尾辞が変えられていても正しく取得されていること', function () {
 			var $img = $('<img src="../dummy_img_07_off.png">');
 			$img.hoverSwap({
 				over_suffix: '_ovr'
-			});
-			expect($.data($img[0], 'hoverSwap').normal_src).to.be.equal('../dummy_img_07_off.png');
-		});
-
-		it('オプションで通常時の接尾辞が変えられているかつオーバーの接尾辞も変えられていても正しく取得されていること', function () {
-			var $img = $('<img src="../dummy_img_07_ovr.png">');
-			$img.hoverSwap({
-				over_suffix: '_ovr'
-			  , normal_suffix: '_off'
 			});
 			expect($.data($img[0], 'hoverSwap').normal_src).to.be.equal('../dummy_img_07_off.png');
 		});
