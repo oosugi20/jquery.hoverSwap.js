@@ -148,5 +148,13 @@ describe('$.fn.hoverSwap', function () {
 			$img.hoverSwap();
 			expect($.data($img[0], 'hoverSwap').over_src).to.be.equal('../dummy_img_01_ov.jpg');
 		});
+
+		context('初期状態がオーバー時の画像だった場合', function () {
+			it('正しくオーバー時のパスがセットされていること', function () {
+				var $img = $('<img src="../dummy_img_01_ov.jpg">');
+				$img.hoverSwap();
+				expect($.data($img[0], 'hoverSwap').over_src).to.be.equal('../dummy_img_01_ov.jpg');
+			});
+		});
 	});
 });

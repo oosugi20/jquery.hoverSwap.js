@@ -61,6 +61,7 @@
 		this
 			._setSrcExtention()
 			._setNormalSrc()
+			._setOverSrc()
 			;
 		//console.log(this);
 	};
@@ -144,7 +145,8 @@
 	 * @chainable
 	 */
 	HoverSwap.fn._setOverSrc = function () {
-		this.over_src = this.normal_src + this.options.over_suffix;
+		var _src = this.noExtentionSrc(this.normal_src);
+		this.over_src = _src + this.options.over_suffix + this.src_extention;
 		return this;
 	};
 
