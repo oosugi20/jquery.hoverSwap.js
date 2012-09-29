@@ -57,4 +57,11 @@ describe('$.fn.hoverSwap', function () {
 		expect($img.attr('src')).to.be.equal('../dummy_img_01_ov.jpg');
 		expect(spy.calledOnce).to.not.be.ok();
 	});
+
+	it('初期オプションではカレントの画像はプリロードしないこと', function () {
+		// no idea for test
+		//var $img = $('<img src="../dummy_img_01.jpg">');
+		//$img.hoverSwap();
+		//var spy = sinon.stub($.data($img[0], 'hoverSwap'), 'swapTo');
+	});
 });

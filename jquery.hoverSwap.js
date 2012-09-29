@@ -7,6 +7,7 @@
 	'use strict';
 
 	var PLUGIN_NAME
+	  , default_options
 	  , ImageSwap = window.ImageSwap 
 	  ;
 
@@ -21,11 +22,25 @@
 
 
 	/**
+	 * default_options
+	 * @type Object
+	 * @static
+	 */
+	default_options = {
+	    over_suffix: '_ov'
+	  , normal_suffix: ''
+	  , current_suffix: '_cr'
+	  , current: false
+	};
+
+
+	/**
 	 * append $.fn
 	 * @public
 	 * @return {jQuery object}
 	 */
 	$.fn[PLUGIN_NAME] = function (options) {
+		var options = $.extend({}, default_options, options);
 		return this.each(function () {
 			var _this = this
 			  , create

@@ -17,6 +17,8 @@
 	default_options = {
 	    over_suffix: '_ov'
 	  , normal_suffix: ''
+	  , current_suffix: '_cr'
+	  , current: true
 	};
 
 
@@ -52,7 +54,13 @@
 			._setOverSrc()
 			._preloadOver()
 			;
-		//console.log(this);
+		if (this.options.current) {
+			this
+				._setCurrentSrc()
+				._preloadCurrent()
+				;
+		}
+		return this;
 	};
 
 
@@ -141,6 +149,20 @@
 
 
 	/**
+	 * ImageSwap.fn._setCurrentSrc
+	 * カレント時の画像パスを取得し、プロパティにセットする。
+	 * @private
+	 * @type Function
+	 * @chainable
+	 */
+	ImageSwap.fn._setCurrentSrc = function () {
+		var _src = this.noExtentionSrc(this.normal_src);
+		this.current_src = _src + this.options.current_suffix + this.src_extention;
+		return this;
+	};
+
+
+	/**
 	 * ImageSwap.fn.swapTo
 	 * @type Function
 	 * @param {String} contenxt `over|normal`
@@ -156,7 +178,9 @@
 				this._swapNormal();
 				break;
 
-			//case 'current':
+			case 'current':
+				this._swapCurrent();
+				break;
 		}
 		return this;
 	};
@@ -181,10 +205,28 @@
 
 
 	/**
+	 * ImageSwap.fn.swapCurrent
+	 */
+	ImageSwap.fn._swapCurrent = function () {
+		this.$el.attr('src', this.current_src);
+		return this;
+	};
+
+
+	/**
 	 * ImageSwap.fn._preloadOver
 	 */
 	ImageSwap.fn._preloadOver = function () {
 		(new Image()).src = this.over_src;
+		return this;
+	};
+
+
+	/**
+	 * ImageSwap.fn._preloadCurrent
+	 */
+	ImageSwap.fn._preloadCurrent = function () {
+		(new Image()).src = this.current_src;
 		return this;
 	};
 

@@ -110,6 +110,21 @@ describe('ImageSwap', function () {
 	});
 
 
+	describe('_setCurrentSrc', function () {
+		it('`current_src` が正しくセットされていること', function () {
+			var $img = $('<img src="../dummy_img_01.jpg">');
+			var swap = new ImageSwap($img[0]);
+			expect(swap.current_src).to.be.equal('../dummy_img_01_cr.jpg');
+		});
+
+		it('オプションでカレントの接尾辞が変えられていても正しくセットされていること', function () {
+			var $img = $('<img src="../dummy_img_01.jpg">');
+			var swap = new ImageSwap($img[0], { current_suffix: '_cur' });
+			expect(swap.current_src).to.be.equal('../dummy_img_01_cur.jpg');
+		});
+	});
+
+
 	describe('noExtentionSrc', function () {
 		it('拡張子を除いたパスが返されること', function () {
 			var $img = $('<img src="../dummy_img_01.jpg">');
@@ -170,6 +185,14 @@ describe('ImageSwap', function () {
 			swap.swapTo('normal');
 			expect(spy.calledOnce).to.be.ok();
 		});
+
+		it('`current` を引数に渡すと `_swapCurrent` が呼ばれること', function () {
+			var $img = $('<img src="../dummy_img_01.jpg">');
+			var swap = new ImageSwap($img[0]);
+			var spy = sinon.stub(swap, '_swapCurrent');
+			swap.swapTo('current');
+			expect(spy.calledOnce).to.be.ok();
+		});
 	});
 
 
@@ -177,8 +200,10 @@ describe('ImageSwap', function () {
 		it('画像のsrcがover_srcに変わること', function () {
 			var $img = $('<img src="../dummy_img_01.jpg">');
 			var swap = new ImageSwap($img[0]);
+			var ov = swap.over_src;
+			expect(ov).to.be.equal('../dummy_img_01_ov.jpg');
 			swap._swapOver();
-			expect($img.attr('src')).to.be.equal('../dummy_img_01_ov.jpg');
+			expect($img.attr('src')).to.be.equal(ov);
 		});
 	});
 
@@ -187,14 +212,35 @@ describe('ImageSwap', function () {
 		it('画像のsrcがnormal_srcに変わること', function () {
 			var $img = $('<img src="../dummy_img_01_ov.jpg">');
 			var swap = new ImageSwap($img[0]);
+			var nr = swap.normal_src;
+			expect(nr).to.be.equal('../dummy_img_01.jpg');
 			swap._swapNormal();
-			expect($img.attr('src')).to.be.equal('../dummy_img_01.jpg');
+			expect($img.attr('src')).to.be.equal(nr);
+		});
+	});
+
+
+	describe('_swapCurrent', function () {
+		it('画像のsrcがcurrent_srcに変わること', function () {
+			var $img = $('<img src="../dummy_img_01.jpg">');
+			var swap = new ImageSwap($img[0]);
+			var cr = swap.current_src;
+			expect(cr).to.be.equal('../dummy_img_01_cr.jpg');
+			swap._swapCurrent();
+			expect($img.attr('src')).to.be.equal(cr);
 		});
 	});
 
 
 	describe('_preloadOver', function () {
 		it('オーバー画像が読み込まれること', function () {
+			// no idea for test
+		});
+	});
+
+
+	describe('_preloadCurrent', function () {
+		it('カレント画像が読み込まれること', function () {
 			// no idea for test
 		});
 	});
