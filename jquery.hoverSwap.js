@@ -111,7 +111,7 @@
 		var _this = this
 		  , o = _this.options
 		  , src = _this.$el.attr('src')
-		  , reg = new RegExp('_ov' + this.src_extention + '$', 'i')
+		  , reg = new RegExp(this.options.over_suffix + this.src_extention + '$', 'i')
 		  ;
 
 		// 初期状態がオーバー時の画像だった場合は、
