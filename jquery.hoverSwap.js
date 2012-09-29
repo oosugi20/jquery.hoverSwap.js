@@ -1,14 +1,13 @@
 /*!
  * jquery.hoverSwap.js
- * @dependent jquery.js
+ * @dependent jquery.js, imageSwap.js
  * @author oosugi20@gmail.com
  */
 ;(function ($, window, undefined) {
 	'use strict';
 
 	var PLUGIN_NAME
-	  , default_options
-	  , HoverSwap 
+	  , ImageSwap = window.ImageSwap 
 	  ;
 
 	/**
@@ -22,217 +21,40 @@
 
 
 	/**
-	 * default_options
-	 * @type Object
-	 * @static
-	 */
-	default_options = {
-	    over_suffix: '_ov'
-	  , normal_suffix: ''
-	};
-
-
-	/**
-	 * HoverSwap
-	 * @constructor
-	 * @param {HTMLElement} element
-	 * @param {Object} options
-	 * @return {Instance object}
-	 */
-	HoverSwap = function (element, options) {
-		this.el = element;
-		this.$el = $(element);
-		this.options = $.extend({}, default_options, options);
-		this.init();
-		return this;
-	};
-
-
-	// defines `fn` as shortcut of `prototype`
-	HoverSwap.prototype = HoverSwap.fn = {};
-
-
-	/**
-	 * HoverSwap.fn.init
-	 * @type Function
-	 * @chainable
-	 */
-	HoverSwap.fn.init = function () {
-		this
-			._setSrcExtention()
-			._setNormalSrc()
-			._setOverSrc()
-			._eventify()
-			._preloadOver()
-			;
-		//console.log(this);
-	};
-
-
-	/**
-	 * HoverSwap.fn._setImageExtention
-	 * 画像の拡張子をプロパティにセットする。
-	 * @private
-	 * @type Function
-	 * @chainable
-	 */
-	HoverSwap.fn._setSrcExtention = function () {
-		var src = this.$el.attr('src')
-		  , dot = src.lastIndexOf('.')
-		  , extention = src.slice(dot);
-		  ;
-
-		this.src_extention = extention;
-		return this;
-	};
-
-
-	/**
-	 * HoverSwap.fn.isOverSrc
-	 * オーバー時のパスかどうかを判別する。
-	 * 引数が渡されなかった場合は、現在のsrcから判別する。
-	 * @type Function
-	 * @param {Strng} [src]
-	 * @return Boolean
-	 */
-	HoverSwap.fn.isOverSrc = function (src) {
-		var src = src || this.$el.attr('src')
-		  , reg = new RegExp(this.options.over_suffix + this.src_extention + '$', 'i')
-		  ;
-		return reg.test(src);
-	};
-
-
-	/**
-	 * HoverSwap.fn._setNormalSrc
-	 * 通常時の画像パスをプロパティにセットする。
-	 * @private
-	 * @type Function
-	 * @chainable
-	 */
-	HoverSwap.fn._setNormalSrc = function () {
-		var src = this.$el.attr('src')
-		  , reg = new RegExp(this.options.over_suffix + this.src_extention + '$', 'i')
-		  ;
-
-		// 初期状態がオーバー時の画像だった場合は、
-		// オーバー用の接尾辞を取り除く
-		if (this.isOverSrc(src)) {
-			src = src.replace(reg, this.options.normal_suffix + this.src_extention);
-		}
-
-		this.normal_src = src;
-
-		return this;
-	};
-
-
-	/**
-	 * HoverSwap.fn.noExtentionSrc
-	 * 拡張子を除いたパスを返す。
-	 * @type Function
-	 * @param {String} src
-	 * @return {String}
-	 */
-	HoverSwap.fn.noExtentionSrc = function (src) {
-		return src.replace(this.src_extention, '');
-	};
-
-
-	/**
-	 * HoverSwap.fn._setOverSrc
-	 * オーバー時の画像パスを取得し、プロパティにセットする。
-	 * @private
-	 * @type Function
-	 * @chainable
-	 */
-	HoverSwap.fn._setOverSrc = function () {
-		var _src = this.noExtentionSrc(this.normal_src);
-		this.over_src = _src + this.options.over_suffix + this.src_extention;
-		return this;
-	};
-
-
-	/**
-	 * HoverSwap.fn._eventify
-	 * @private
-	 * @type Function
-	 * @chainable
-	 */
-	HoverSwap.fn._eventify = function () {
-		var _this = this;
-		if (this.$el.attr('src') !== this.over_src) {
-			this.$el
-				.on('mouseenter', function () {
-					_this.swapTo('over');
-				})
-				.on('mouseleave', function () {
-					_this.swapTo('normal');
-				})
-				;
-		}
-		return this;
-	};
-
-
-	/**
-	 * HoverSwap.fn.swapTo
-	 * @type Function
-	 * @param {String} contenxt `over|normal`
-	 * @chainable
-	 */
-	HoverSwap.fn.swapTo = function (context) {
-		switch (context) {
-			case 'over':
-				this._swapOver();
-				break;
-
-			case 'normal':
-				this._swapNormal();
-				break;
-
-			//case 'current':
-		}
-		return this;
-	};
-
-
-	/**
-	 * HoverSwap.fn._swapOver
-	 */
-	HoverSwap.fn._swapOver = function () {
-		this.$el.attr('src', this.over_src);
-		return this;
-	};
-
-
-	/**
-	 * HoverSwap.fn.swapNormal
-	 */
-	HoverSwap.fn._swapNormal = function () {
-		this.$el.attr('src', this.normal_src);
-		return this;
-	};
-
-
-	/**
-	 * HoverSwap.fn._preloadOver
-	 */
-	HoverSwap.fn._preloadOver = function () {
-		(new Image()).src = this.over_src;
-		return this;
-	};
-
-
-	/**
 	 * append $.fn
 	 * @public
 	 * @return {jQuery object}
 	 */
 	$.fn[PLUGIN_NAME] = function (options) {
 		return this.each(function () {
+			var _this = this
+			  , create
+			  ;
+
+			/**
+			 * create
+			 * @private
+			 * @type Function
+			 */
+			create = function () {
+				$.data(_this, PLUGIN_NAME, new ImageSwap(_this, options));
+
+				$(_this).on('mouseenter', function () {
+					if ($(this).attr('src') === $.data(this, PLUGIN_NAME).normal_src) {
+						$.data(this, PLUGIN_NAME).swapTo('over');
+						$(this).on('mouseleave', function () {
+							$.data(this, PLUGIN_NAME).swapTo('normal');
+						});
+					}
+				});
+			};
+
 			if (!$.data(this, PLUGIN_NAME)) {
-				$(this).data(PLUGIN_NAME, new HoverSwap(this, options));
+				create();
+			} else {
+				if ($.data(this, PLUGIN_NAME).normal_src !== $(this).attr('src')) {
+					create();
+				}
 			}
 		});
 	};
