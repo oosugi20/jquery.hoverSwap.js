@@ -1,5 +1,8 @@
 /*!
  * imageSwap.js
+ * @version v0.1.0
+ * @dependent jquery.js
+ * @author oosugi20@gmail.com
  */
 ;(function ($, window, undefined) {
 	'use strict';

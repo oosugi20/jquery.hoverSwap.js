@@ -1,5 +1,6 @@
 /*!
  * jquery.hoverSwap.js
+ * @version v0.1.0
  * @dependent jquery.js, imageSwap.js
  * @author oosugi20@gmail.com
  */
