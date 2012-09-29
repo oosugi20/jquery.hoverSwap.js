@@ -77,7 +77,7 @@ describe('$.fn.hoverSwap', function () {
 		});
 
 
-		describe('初期状態がオーバー時の画像だった場合', function () {
+		context('初期状態がオーバー時の画像だった場合', function () {
 			it('正しく通常時のパスが取得されていること', function () {
 				var $img = $('<img src="../dummy_img_01_ov.jpg">');
 				$img.hoverSwap();
