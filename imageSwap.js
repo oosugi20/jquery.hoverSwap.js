@@ -102,6 +102,22 @@
 
 
 	/**
+	 * ImageSwap.fn.isCurrentSrc
+	 * 関連と時のパスかどうかを判別する。
+	 * 引数が渡されなかった場合は、現在のsrcから判別する。
+	 * @type Function
+	 * @param {Strng} [src]
+	 * @return Boolean
+	 */
+	ImageSwap.fn.isCurrentSrc = function (src) {
+		var src = src || this.$el.attr('src')
+		  , reg = new RegExp(this.options.current_suffix + this.src_extention + '$', 'i')
+		  ;
+		return reg.test(src);
+	};
+
+
+	/**
 	 * ImageSwap.fn._setNormalSrc
 	 * 通常時の画像パスをプロパティにセットする。
 	 * @private
@@ -111,12 +127,17 @@
 	ImageSwap.fn._setNormalSrc = function () {
 		var src = this.$el.attr('src')
 		  , reg = new RegExp(this.options.over_suffix + this.src_extention + '$', 'i')
+		  , regCr = new RegExp(this.options.current_suffix + this.src_extention + '$', 'i')
 		  ;
 
 		// 初期状態がオーバー時の画像だった場合は、
 		// オーバー用の接尾辞を取り除く
 		if (this.isOverSrc(src)) {
 			src = src.replace(reg, this.options.normal_suffix + this.src_extention);
+		}
+
+		if (this.options.current || this.isCurrentSrc(src)) {
+			src = src.replace(regCr, this.options.normal_suffix + this.src_extention);
 		}
 
 		this.normal_src = src;

@@ -107,6 +107,14 @@ describe('ImageSwap', function () {
 				expect(swap.normal_src).to.be.equal('../dummy_img_07_off.png');
 			});
 		});
+
+		context('初期状態がカレント画像だった場合', function () {
+			it('正しく通常時のパスが取得されていること', function () {
+				var $img = $('<img src="../dummy_img_01_cr.jpg">');
+				var swap = new ImageSwap($img[0]);
+				expect(swap.normal_src).to.be.equal('../dummy_img_01.jpg');
+			});
+		});
 	});
 
 
