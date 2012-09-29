@@ -68,6 +68,7 @@ describe('$.fn.hoverSwap', function () {
 		});
 	});
 
+
 	describe('_setNormalSrc', function () {
 		it('`normal_src` がセットされていること', function () {
 			var $img = $('<img src="../dummy_img_01.jpg">');
@@ -79,6 +80,31 @@ describe('$.fn.hoverSwap', function () {
 			var $img = $('<img src="../dummy_img_01_ov.jpg">');
 			$img.hoverSwap();
 			expect($.data($img[0], 'hoverSwap').normal_src).to.be.equal('../dummy_img_01.jpg');
+		});
+
+		it('オプションでオーバー時の接尾辞が変えられていても正しく取得されていること', function () {
+			var $img = $('<img src="../dummy_img_05_on.png">');
+			$img.hoverSwap({
+				over_suffix: '_on'
+			});
+			expect($.data($img[0], 'hoverSwap').normal_src).to.be.equal('../dummy_img_05.png');
+		});
+
+		it('オプションで通常時の接尾辞が変えられていても正しく取得されていること', function () {
+			var $img = $('<img src="../dummy_img_07_off.png">');
+			$img.hoverSwap({
+				over_suffix: '_ovr'
+			});
+			expect($.data($img[0], 'hoverSwap').normal_src).to.be.equal('../dummy_img_07_off.png');
+		});
+
+		it('オプションで通常時の接尾辞が変えられているかつオーバーの接尾辞も変えられていても正しく取得されていること', function () {
+			var $img = $('<img src="../dummy_img_07_ovr.png">');
+			$img.hoverSwap({
+				over_suffix: '_ovr'
+			  , normal_suffix: '_off'
+			});
+			expect($.data($img[0], 'hoverSwap').normal_src).to.be.equal('../dummy_img_07_off.png');
 		});
 	});
 });
