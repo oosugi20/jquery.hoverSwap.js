@@ -111,20 +111,13 @@
 		var _this = this
 		  , o = _this.options
 		  , src = _this.$el.attr('src')
-		  , reg
 		  ;
 
-		//if (o.normal_suffix) {
-		//	reg = new RegExp('/' + o.normal_suffix + 'jpg|jpeg|png|gif$/');
-		//}
-
-		// 初期状態がオーバー時の画像だった場合
-		reg = new RegExp(o.over_suffix + this.src_extention + '$', 'i');
-		console.log(/_ov.jpg$/.test(src));
-		console.log(reg);
-		if (reg.test(src)) {
+		// 初期状態がオーバー時の画像だった場合は、
+		// オーバー用の接尾辞を取り除く
+		if (this.isOverSrc(src)) {
+			src = src.replace(/_ov.jpg$/, '.jpg');
 		}
-
 
 		_this.normal_src = src;
 
