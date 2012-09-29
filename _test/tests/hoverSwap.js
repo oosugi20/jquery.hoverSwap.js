@@ -118,6 +118,30 @@ describe('$.fn.hoverSwap', function () {
 	});
 
 
+	describe('noExtentionSrc', function () {
+		it('拡張子を除いたパスが返されること', function () {
+			var $img = $('<img src="../dummy_img_01.jpg">');
+			$img.hoverSwap();
+			expect($.data($img[0], 'hoverSwap').noExtentionSrc('../dummy_img_01.jpg')).to.be.equal('../dummy_img_01');
+			expect($.data($img[0], 'hoverSwap').noExtentionSrc('../dummy_img_01_ov.jpg')).to.be.equal('../dummy_img_01_ov');
+		});
+
+		it('複数の拡張子で正しく取得されていること', function () {
+			var $jpg = $('<img src="../dummy_img_01_ov.jpg">')
+			  , $jpeg = $('<img src="../dummy_img_08_ov.jpeg">')
+			  , $gif = $('<img src="../dummy_img_03_ov.gif">')
+			  , $png = $('<img src="../dummy_img_04_ov.png">')
+			  , $imgs = $jpg.add($gif).add($png).add($jpeg)
+			  ;
+			$imgs.hoverSwap();
+			expect($.data($jpg[0], 'hoverSwap').noExtentionSrc('../dummy_img_01.jpg')).to.be.equal('../dummy_img_01');
+			expect($.data($jpeg[0], 'hoverSwap').noExtentionSrc('../dummy_img_08.jpeg')).to.be.equal('../dummy_img_08');
+			expect($.data($gif[0], 'hoverSwap').noExtentionSrc('../dummy_img_03.gif')).to.be.equal('../dummy_img_03');
+			expect($.data($png[0], 'hoverSwap').noExtentionSrc('../dummy_img_04.png')).to.be.equal('../dummy_img_04');
+		});
+	});
+
+
 	describe('_setOverSrc', function () {
 		it('正しくオーバー時のパスがセットされていること', function () {
 			var $img = $('<img src="../dummy_img_01.jpg">');

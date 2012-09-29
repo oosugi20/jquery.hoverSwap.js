@@ -125,6 +125,18 @@
 
 
 	/**
+	 * HoverSwap.fn.noExtentionSrc
+	 * 拡張子を除いたパスを返す。
+	 * @type Function
+	 * @param {String} src
+	 * @return {String}
+	 */
+	HoverSwap.fn.noExtentionSrc = function (src) {
+		return src.replace(this.src_extention, '');
+	};
+
+
+	/**
 	 * HoverSwap.fn._setOverSrc
 	 * オーバー時の画像パスを取得し、プロパティにセットする。
 	 * @private
@@ -132,8 +144,8 @@
 	 * @chainable
 	 */
 	HoverSwap.fn._setOverSrc = function () {
-		var _this = this;
-
+		this.over_src = this.normal_src + this.options.over_suffix;
+		return this;
 	};
 
 
