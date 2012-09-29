@@ -28,7 +28,7 @@
 	 */
 	default_options = {
 	    over_suffix: '_ov'
-	  , normal_suffix: null
+	  , normal_suffix: ''
 	};
 
 
@@ -117,7 +117,7 @@
 		// 初期状態がオーバー時の画像だった場合は、
 		// オーバー用の接尾辞を取り除く
 		if (this.isOverSrc(src)) {
-			src = src.replace(reg, this.src_extention);
+			src = src.replace(reg, this.options.normal_suffix + this.src_extention);
 		}
 
 		_this.normal_src = src;
