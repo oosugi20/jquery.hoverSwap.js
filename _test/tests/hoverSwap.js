@@ -116,4 +116,13 @@ describe('$.fn.hoverSwap', function () {
 			});
 		});
 	});
+
+
+	describe('_setOverSrc', function () {
+		it('正しくオーバー時のパスが取得されていること', function () {
+			var $img = $('<img src="../dummy_img_01.jpg">');
+			$img.hoverSwap();
+			expect($.data($img[0], 'hoverSwap').normal_src).to.be.equal('../dummy_img_01_ov.jpg');
+		});
+	});
 });
