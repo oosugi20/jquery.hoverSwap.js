@@ -1,6 +1,6 @@
 /*!
  * imageSwap.js
- * @version v0.1.0
+ * @version v0.1.1
  * @dependent jquery.js
  * @author oosugi20@gmail.com
  */
